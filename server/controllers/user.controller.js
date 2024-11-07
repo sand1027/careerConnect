@@ -45,7 +45,7 @@ export const register = async(req, res) => {
             password: hashedPassword,
             role,
             profile: {
-                profilePhoto: profilePhotoUrl, // Use the Cloudinary URL if available, otherwise null
+                profilePhoto: profilePhotoUrl,
             }
         });
 
@@ -143,9 +143,9 @@ export const updateProfile = async(req, res) => {
         if (skills) {
             skillsArray = skills.split(",");
         }
-        const userId = req.id; // middleware authentication
+        const userId = req.id;
         let user = await User.findById(userId);
-
+        console.log(userId)
         if (!user) {
             return res.status(400).json({
                 message: "User not found.",
@@ -161,7 +161,7 @@ export const updateProfile = async(req, res) => {
 
         // resume comes later here...
         if (cloudResponse) {
-            user.profile.resume = cloudResponse.secure_url // save the cloudinary url
+            user.profile.resume = cloudResponse.secure_url
             user.profile.resumeOriginalName = file.originalname // Save the original file name
         }
 
@@ -186,3 +186,46 @@ export const updateProfile = async(req, res) => {
         console.log(error);
     }
 }
+export const savedJobs = async(req, res) => {
+    try {
+        const { jobId } = req.body;
+        const userId = req.id;
+
+        // Find user by ID
+        let user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            });
+        }
+
+        // Check if jobId already exists in savedJobs to prevent duplicates
+        if (user.profile.savedJobs.includes(jobId)) {
+            return res.status(400).json({
+                message: "Job is already saved",
+                success: false
+            });
+        }
+
+        // Add jobId to savedJobs array and save
+        user.profile.savedJobs.push(jobId);
+        await user.save();
+
+        // Populate savedJobs with Job details
+        await user.populate('profile.savedJobs');
+
+        return res.status(200).json({
+            message: "Job saved successfully",
+            success: true,
+            savedJobs: user.profile.savedJobs
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "An error occurred",
+            error: error.message,
+            success: false
+        });
+    }
+};

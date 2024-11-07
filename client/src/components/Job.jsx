@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
+import axios from 'axios';
 
 const Job = ({ job }) => {
     const navigate = useNavigate();
@@ -19,7 +20,17 @@ const Job = ({ job }) => {
         return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
     };
 
-
+    const handleSaveForLater = async (jobId) => {
+        console.log('entered')
+        try {
+            const response = await axios.post('http://localhost:8000/api/v1/user/savedjob', { jobId }, {
+                withCredentials: true
+            });
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <motion.div
             className='p-5 rounded-md shadow-lg bg-white border border-gray-100 hover:shadow-2xl cursor-pointer'
@@ -80,7 +91,7 @@ const Job = ({ job }) => {
                 <Button onClick={ () => navigate(`/description/${job?._id}`) } variant='outline'>
                     Details
                 </Button>
-                <Button className='bg-blue-700 text-white'>Save For Later</Button>
+                <Button className='bg-blue-700 text-white' onClick={ () => handleSaveForLater(job._id) }>Save For Later</Button>
             </div>
         </motion.div>
     );

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { Avatar, AvatarImage } from '../ui/avatar';
-import { Menu, LogOut, User2, X } from 'lucide-react'; // Import 'X' icon for close button
+import { Menu, LogOut, User2, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -37,7 +37,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className='bg-white p-4 shadow-md'>
+        <div className='bg-white p-4 shadow-md w-full'>
             <div className='flex items-center justify-between mx-auto max-w-7xl px-4'>
 
                 <div className='text-2xl font-bold mr-20 cursor-pointer' onClick={ () => navigate('/') }>
