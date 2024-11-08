@@ -57,7 +57,7 @@ const JobDescription = () => {
                 initial={ { opacity: 0, y: 50 } }
                 animate={ { opacity: 1, y: 0 } }
                 transition={ { duration: 0.5 } }
-                className='max-w-6xl mx-auto p-8 bg-white mt-3 sm:mt-0'
+                className='max-w-6xl mx-auto pt-16 bg-white mt-3 sm:mt-0'
             >
 
                 {/* Job Header Section */ }

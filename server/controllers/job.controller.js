@@ -100,3 +100,5 @@ export const getAdminJobs = async(req, res) => {
         console.log(error);
     }
 }
+
+// need to implement delete a job post for admin

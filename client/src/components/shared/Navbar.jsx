@@ -37,7 +37,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className='bg-white p-4 shadow-md w-full'>
+        <div className='bg-white p-4 shadow-md w-full fixed top-0 z-50 '>
             <div className='flex items-center justify-between mx-auto max-w-7xl px-4'>
 
                 <div className='text-2xl font-bold mr-20 cursor-pointer' onClick={ () => navigate('/') }>

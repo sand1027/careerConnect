@@ -29,7 +29,7 @@ const Jobs = () => {
     return (
         <div className="bg-white">
             <Navbar />
-            <div className='max-w-7xl mx-auto mt-5'>
+            <div className='max-w-7xl mx-auto  pt-16'>
                 <div className='flex gap-5'>
                     <div className='w-1/5'>
                         <FilterCard />

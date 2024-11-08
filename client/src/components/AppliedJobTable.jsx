@@ -1,12 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
+import { Table, TableBody, TableCaption, TableCell, TableHeader, TableRow } from './ui/table';
 
 const AppliedJobTable = () => {
     // Safely get appliedJobs from state with a fallback to an empty array
     const { allAppliedJobs } = useSelector(state => state.job);
 
-    // Function to return appropriate color for status
+
     const getStatusColor = (status) => {
         if (!status) return 'text-gray-500'; // Fallback color when status is undefined or null
         switch (status?.toLowerCase()) {
@@ -23,44 +24,57 @@ const AppliedJobTable = () => {
 
     return (
         <motion.div
-            initial={ { opacity: 0 } }
-            animate={ { opacity: 1 } }
+            initial={ { opacity: 0, y: 20 } }
+            animate={ { opacity: 1, y: 0 } }
             transition={ { duration: 0.5 } }
         >
-
             <div className="overflow-x-auto">
-                <table className="table-auto w-full border-collapse border border-blue-300 rounded-xl">
-                    <thead>
-                        <tr className="bg-blue-600 text-white">
-                            <th className="border border-blue-300 px-4 py-2">Job Title</th>
-                            <th className="border border-blue-300 px-4 py-2">Company</th>
-                            <th className="border border-blue-300 px-4 py-2">Applied Date</th>
-                            <th className="border border-blue-300 px-4 py-2">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            allAppliedJobs?.length > 0 ? (
-                                allAppliedJobs?.map((appliedJob) => (
-                                    <tr key={ appliedJob._id } className="text-blue-600 hover:bg-blue-100">
-                                        <td className="border border-blue-300 px-4 py-2">{ appliedJob?.job.title }</td>
-                                        <td className="border border-blue-300 px-4 py-2">{ appliedJob?.job.company.name }</td>
-                                        <td className="border border-blue-300 px-4 py-2">
-                                            { new Date(appliedJob.createdAt).toLocaleDateString() }
-                                        </td>
-                                        <td className={ `border border-blue-300 px-4 py-2 ${getStatusColor(appliedJob?.status)}` }>
-                                            { appliedJob?.status || 'Unknown' }
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="4" className="text-center py-4">No applied jobs found</td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
+                <Table className="table-auto w-full border border-gray-300 rounded-lg">
+                    <TableHeader>
+                        <TableRow className="bg-gray-100 text-gray-700">
+                            <TableCell className="border-b border-gray-300 px-4 py-3">Job Title</TableCell>
+                            <TableCell className="border-b border-gray-300 px-4 py-3">Company</TableCell>
+                            <TableCell className="border-b border-gray-300 px-4 py-3">Applied Date</TableCell>
+                            <TableCell className="border-b border-gray-300 px-4 py-3">Status</TableCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        { allAppliedJobs?.length > 0 ? (
+                            allAppliedJobs?.map((appliedJob, index) => (
+                                <motion.tr
+                                    key={ appliedJob._id }
+                                    className="hover:bg-gray-100 transition-colors duration-300"
+                                    initial={ { opacity: 0, y: 10 } }
+                                    animate={ { opacity: 1, y: 0 } }
+                                    transition={ { duration: 0.3, delay: index * 0.1 } }
+                                >
+                                    <TableCell className="border-b border-gray-300 px-4 py-3">
+                                        { appliedJob?.job.title }
+                                    </TableCell>
+                                    <TableCell className="border-b border-gray-300 px-4 py-3">
+                                        { appliedJob?.job.company.name }
+                                    </TableCell>
+                                    <TableCell className="border-b border-gray-300 px-4 py-3">
+                                        { new Date(appliedJob.createdAt).toLocaleDateString() }
+                                    </TableCell>
+                                    <TableCell
+                                        className={ `border-b border-gray-300 px-4 py-3 ${getStatusColor(
+                                            appliedJob?.status
+                                        )}` }
+                                    >
+                                        { appliedJob?.status || 'Unknown' }
+                                    </TableCell>
+                                </motion.tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" className="text-center py-4 text-gray-500">
+                                    No applied jobs found
+                                </td>
+                            </tr>
+                        ) }
+                    </TableBody>
+                </Table>
             </div>
         </motion.div>
     );

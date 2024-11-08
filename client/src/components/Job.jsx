@@ -5,11 +5,15 @@ import { Avatar, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
 import axios from 'axios';
+import { setsavedJobs } from '@/redux/authSlice';
+import { toast } from 'sonner';
+import { USER_API_END_POINT } from '@/utils/constant';
 
 const Job = ({ job }) => {
+    const { savedJobs } = useSelector(store => store.auth)
     const navigate = useNavigate();
     const dispatch = useDispatch()
 
@@ -23,12 +27,17 @@ const Job = ({ job }) => {
     const handleSaveForLater = async (jobId) => {
         console.log('entered')
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/user/savedjob', { jobId }, {
+            const response = await axios.post(`${USER_API_END_POINT}/savedjob`, { jobId }, {
                 withCredentials: true
             });
             console.log(response);
+            if (response) {
+                dispatch(setsavedJobs(response.data.savedJobs))
+                toast.success(response.data.message)
+            }
         } catch (error) {
             console.log(error);
+            toast.success(error.response.data.message)
         }
     };
     return (
@@ -91,7 +100,13 @@ const Job = ({ job }) => {
                 <Button onClick={ () => navigate(`/description/${job?._id}`) } variant='outline'>
                     Details
                 </Button>
-                <Button className='bg-blue-700 text-white' onClick={ () => handleSaveForLater(job._id) }>Save For Later</Button>
+                {
+                    savedJobs?.some(savedJobs => savedJobs._id.toString() === job?._id.toString()) ?
+                        <Button className='bg-green-500 text-white' >Saved Already</Button> :
+                        <Button className='bg-blue-700 text-white' onClick={ () => handleSaveForLater(job._id) }>Save For Later</Button>
+                }
+
+
             </div>
         </motion.div>
     );

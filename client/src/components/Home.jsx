@@ -18,7 +18,7 @@ const Home = () => {
     if (user?.role === 'recruiter') {
       navigate("/admin/companies");
     }
-  }, []);
+  }, [user, navigate]);
 
   return (
     <motion.div
@@ -27,13 +27,18 @@ const Home = () => {
       animate={ { opacity: 1 } }
       transition={ { duration: 0.5 } }
     >
+      {/* Fixed navbar */ }
       <Navbar />
-      <HeroSection />
-      <CategoryCarousel />
-      <LatestJobs />
-      <Footer />
+
+      {/* Main content with padding to avoid overlap */ }
+      <div className="pt-16">
+        <HeroSection />
+        <CategoryCarousel />
+        <LatestJobs />
+        <Footer />
+      </div>
     </motion.div>
-  )
-}
+  );
+};
 
 export default Home;

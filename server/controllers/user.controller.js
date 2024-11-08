@@ -186,40 +186,38 @@ export const updateProfile = async(req, res) => {
         console.log(error);
     }
 }
+
 export const savedJobs = async(req, res) => {
     try {
         const { jobId } = req.body;
         const userId = req.id;
 
-        // Find user by ID
-        let user = await User.findById(userId);
+        let user = await User.findById(userId)
         if (!user) {
             return res.status(404).json({
                 message: "User not found",
                 success: false
-            });
+            })
         }
 
-        // Check if jobId already exists in savedJobs to prevent duplicates
         if (user.profile.savedJobs.includes(jobId)) {
             return res.status(400).json({
                 message: "Job is already saved",
                 success: false
-            });
+            })
         }
 
-        // Add jobId to savedJobs array and save
         user.profile.savedJobs.push(jobId);
-        await user.save();
+        await user.save()
 
-        // Populate savedJobs with Job details
         await user.populate('profile.savedJobs');
-
         return res.status(200).json({
+            user,
             message: "Job saved successfully",
             success: true,
             savedJobs: user.profile.savedJobs
         });
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -227,5 +225,6 @@ export const savedJobs = async(req, res) => {
             error: error.message,
             success: false
         });
+
     }
-};
+}
