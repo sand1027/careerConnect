@@ -59,29 +59,26 @@ const Login = () => {
     return (
         <>
             <Navbar />
-
             <motion.div
-                className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50"
+                className="flex justify-center items-center min-h-screen pt-16 bg-gradient-to-br from-blue-100 via-white to-blue-50"
                 initial={ { opacity: 0 } }
                 animate={ { opacity: 1 } }
                 exit={ { opacity: 0 } }
                 transition={ { duration: 0.5 } }
             >
-
                 <motion.div
                     className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg border border-gray-200"
                     initial={ { y: 50 } }
                     animate={ { y: 0 } }
                     transition={ { type: 'spring', stiffness: 100 } }
                 >
-
                     <motion.h1
-                        className="font-bold text-4xl mb-6 text-blue-600 text-center" // Increased size
+                        className="font-bold text-3xl mb-6 text-blue-600 text-center"
                         initial={ { opacity: 0 } }
                         animate={ { opacity: 1 } }
                         transition={ { delay: 0.3 } }
                     >
-                        Sign In to Your Account
+                        Sign In
                     </motion.h1>
 
                     <form onSubmit={ submitHandler }>
@@ -91,7 +88,9 @@ const Login = () => {
                             animate={ { x: 0, opacity: 1 } }
                             transition={ { delay: 0.4 } }
                         >
-                            <Label htmlFor="email" className="block text-gray-700 text-lg">Email Address <span className="text-red-400">*</span></Label> {/* Increased size */ }
+                            <Label htmlFor="email" className="block text-gray-700 text-lg">
+                                Email Address <span className="text-red-400">*</span>
+                            </Label>
                             <Input
                                 id="email"
                                 placeholder="john.doe@gmail.com"
@@ -108,7 +107,9 @@ const Login = () => {
                             animate={ { x: 0, opacity: 1 } }
                             transition={ { delay: 0.5 } }
                         >
-                            <Label htmlFor="password" className="block text-gray-700 text-lg">Password <span className="text-red-400">*</span></Label> {/* Increased size */ }
+                            <Label htmlFor="password" className="block text-gray-700 text-lg">
+                                Password <span className="text-red-400">*</span>
+                            </Label>
                             <Input
                                 id="password"
                                 placeholder="********"
@@ -126,7 +127,9 @@ const Login = () => {
                             animate={ { x: 0, opacity: 1 } }
                             transition={ { delay: 0.6 } }
                         >
-                            <Label className="block text-gray-700 mb-2 text-lg">I am a: <span className="text-red-400">*</span></Label> {/* Increased size */ }
+                            <Label className="block text-gray-700 mb-2 text-lg">
+                                I am a: <span className="text-red-400">*</span>
+                            </Label>
                             <RadioGroup
                                 className="flex gap-4"
                                 value={ input.role }
@@ -142,7 +145,9 @@ const Login = () => {
                                         checked={ input.role === 'student' }
                                         onChange={ changeEventHandler }
                                     />
-                                    <Label htmlFor="student" className="text-gray-700 cursor-pointer">JobSeeker</Label>
+                                    <Label htmlFor="student" className="text-gray-700 cursor-pointer">
+                                        JobSeeker
+                                    </Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <input
@@ -154,7 +159,9 @@ const Login = () => {
                                         checked={ input.role === 'recruiter' }
                                         onChange={ changeEventHandler }
                                     />
-                                    <Label htmlFor="recruiter" className="text-gray-700 cursor-pointer">Recruiter</Label>
+                                    <Label htmlFor="recruiter" className="text-gray-700 cursor-pointer">
+                                        Recruiter
+                                    </Label>
                                 </div>
                             </RadioGroup>
                         </motion.div>

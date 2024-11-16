@@ -9,56 +9,43 @@ import axios from 'axios';
 import { USER_API_END_POINT } from '@/utils/constant';
 import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoading } from '@/redux/authSlice';
+import { setLoading, setUser } from '@/redux/authSlice';
 import { Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Signup = () => {
     const [input, setInput] = useState({
-        fullname: '',
+        name: '',
         email: '',
-        phoneNumber: '',
         password: '',
         role: '',
-        file: ''
     });
     const { loading, user } = useSelector((store) => store.auth);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
 
-    const changeFileHandler = (e) => {
-        setInput({ ...input, file: e.target.files?.[0] });
-    };
-
     const submitHandler = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('fullname', input.fullname);
-        formData.append('email', input.email);
-        formData.append('phoneNumber', input.phoneNumber);
-        formData.append('password', input.password);
-        formData.append('role', input.role);
-        if (input.file) {
-            formData.append('file', input.file);
-        }
-
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+            const res = await axios.post(`${USER_API_END_POINT}/signup`, input, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 withCredentials: true,
             });
             if (res.data.success) {
-                navigate('/login');
+                dispatch(setUser(res.data.user));
+                navigate('/');
                 toast.success(res.data.message);
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response?.data?.message);
+            toast.error(error.response.data.message);
         } finally {
             dispatch(setLoading(false));
         }
@@ -71,183 +58,158 @@ const Signup = () => {
     }, [user, navigate]);
 
     return (
-        <motion.div
-            className="min-h-screen bg-gradient-to-r from-blue-100 to-white flex flex-col"
-            initial={ { opacity: 0 } }
-            animate={ { opacity: 1 } }
-            transition={ { duration: 0.5 } }
-        >
+        <>
             <Navbar />
             <motion.div
-                className="flex items-center justify-center w-full px-4 md:px-0 max-w-7xl mx-auto"
-                initial={ { scale: 0.8, opacity: 0 } }
-                animate={ { scale: 1, opacity: 1 } }
+                className="flex justify-center items-center min-h-screen pt-16 bg-gradient-to-br from-blue-100 via-white to-blue-50"
+                initial={ { opacity: 0 } }
+                animate={ { opacity: 1 } }
+                exit={ { opacity: 0 } }
                 transition={ { duration: 0.5 } }
             >
-                <motion.form
-                    onSubmit={ submitHandler }
-                    className="w-full max-w-lg bg-white border border-gray-200 rounded-lg p-8 shadow-md my-10"
-                    initial={ { y: 50, opacity: 0 } }
-                    animate={ { y: 0, opacity: 1 } }
-                    transition={ { type: 'spring', stiffness: 120 } }
+                <motion.div
+                    className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg border border-gray-200"
+                    initial={ { y: 50 } }
+                    animate={ { y: 0 } }
+                    transition={ { type: 'spring', stiffness: 100 } }
                 >
                     <motion.h1
-                        className="font-bold text-2xl text-center text-blue-600 mb-5"
+                        className="font-bold text-3xl mb-6 text-blue-600 text-center"
                         initial={ { opacity: 0 } }
                         animate={ { opacity: 1 } }
-                        transition={ { delay: 0.2 } }
+                        transition={ { delay: 0.3 } }
                     >
                         Sign Up
                     </motion.h1>
-                    <motion.div
-                        className="my-4"
-                        initial={ { x: -100, opacity: 0 } }
-                        animate={ { x: 0, opacity: 1 } }
-                        transition={ { duration: 0.4 } }
-                    >
-                        <Label>Full Name</Label>
-                        <Input
-                            type="text"
-                            value={ input.fullname }
-                            name="fullname"
-                            onChange={ changeEventHandler }
-                            placeholder="John Doe"
-                            className="mt-1"
-                        />
-                    </motion.div>
-                    <motion.div
-                        className="my-4"
-                        initial={ { x: -100, opacity: 0 } }
-                        animate={ { x: 0, opacity: 1 } }
-                        transition={ { duration: 0.5 } }
-                    >
-                        <Label>Email</Label>
-                        <Input
-                            type="email"
-                            value={ input.email }
-                            name="email"
-                            onChange={ changeEventHandler }
-                            placeholder="john.doe@gmail.com"
-                            className="mt-1"
-                        />
-                    </motion.div>
-                    <motion.div
-                        className="my-4"
-                        initial={ { x: -100, opacity: 0 } }
-                        animate={ { x: 0, opacity: 1 } }
-                        transition={ { duration: 0.6 } }
-                    >
-                        <Label>Phone Number</Label>
-                        <Input
-                            type="text"
-                            value={ input.phoneNumber }
-                            name="phoneNumber"
-                            onChange={ changeEventHandler }
-                            placeholder="8080808080"
-                            className="mt-1"
-                        />
-                    </motion.div>
-                    <motion.div
-                        className="my-4"
-                        initial={ { x: -100, opacity: 0 } }
-                        animate={ { x: 0, opacity: 1 } }
-                        transition={ { duration: 0.7 } }
-                    >
-                        <Label>Password</Label>
-                        <Input
-                            type="password"
-                            value={ input.password }
-                            name="password"
-                            onChange={ changeEventHandler }
-                            placeholder="********"
-                            className="mt-1"
-                        />
-                    </motion.div>
-                    <motion.div
-                        className="flex flex-col md:flex-col items-center justify-between my-4"
-                        initial={ { y: 50, opacity: 0 } }
-                        animate={ { y: 0, opacity: 1 } }
-                        transition={ { delay: 0.3 } }
-                    >
-                        <RadioGroup className="flex items-center gap-4">
-                            <spn>I'am</spn>
-                            <motion.div
-                                className="flex items-center space-x-2"
-                                initial={ { opacity: 0 } }
-                                animate={ { opacity: 1 } }
-                                transition={ { delay: 0.4 } }
-                            >
-                                <Input
-                                    type="radio"
-                                    name="role"
-                                    value="student"
-                                    checked={ input.role === 'student' }
-                                    onChange={ changeEventHandler }
-                                    className="cursor-pointer"
-                                />
-                                <Label htmlFor="student">JobSeeker</Label>
-                            </motion.div>
-                            <motion.div
-                                className="flex items-center space-x-2"
-                                initial={ { opacity: 0 } }
-                                animate={ { opacity: 1 } }
-                                transition={ { delay: 0.5 } }
-                            >
-                                <Input
-                                    type="radio"
-                                    name="role"
-                                    value="recruiter"
-                                    checked={ input.role === 'recruiter' }
-                                    onChange={ changeEventHandler }
-                                    className="cursor-pointer"
-                                />
-                                <Label htmlFor="recruiter">Recruiter</Label>
-                            </motion.div>
-                        </RadioGroup>
 
+                    <form onSubmit={ submitHandler }>
                         <motion.div
-                            className="flex items-center gap-2 mt-4 md:mt-0"
-                            initial={ { opacity: 0 } }
-                            animate={ { opacity: 1 } }
+                            className="mb-4"
+                            initial={ { x: -50, opacity: 0 } }
+                            animate={ { x: 0, opacity: 1 } }
+                            transition={ { delay: 0.4 } }
+                        >
+                            <Label htmlFor="name" className="block text-gray-700 text-lg">
+                                Full Name <span className="text-red-400">*</span>
+                            </Label>
+                            <Input
+                                id="name"
+                                placeholder="John Doe"
+                                type="text"
+                                className="mt-1 p-3 border border-gray-300 rounded-md outline-none focus:border-blue-500 transition-all w-full"
+                                value={ input.name }
+                                name="name"
+                                onChange={ changeEventHandler }
+                            />
+                        </motion.div>
+                        <motion.div
+                            className="mb-4"
+                            initial={ { x: -50, opacity: 0 } }
+                            animate={ { x: 0, opacity: 1 } }
+                            transition={ { delay: 0.5 } }
+                        >
+                            <Label htmlFor="email" className="block text-gray-700 text-lg">
+                                Email Address <span className="text-red-400">*</span>
+                            </Label>
+                            <Input
+                                id="email"
+                                placeholder="john.doe@gmail.com"
+                                type="email"
+                                className="mt-1 p-3 border border-gray-300 rounded-md outline-none focus:border-blue-500 transition-all w-full"
+                                value={ input.email }
+                                name="email"
+                                onChange={ changeEventHandler }
+                            />
+                        </motion.div>
+                        <motion.div
+                            className="mb-4"
+                            initial={ { x: -50, opacity: 0 } }
+                            animate={ { x: 0, opacity: 1 } }
                             transition={ { delay: 0.6 } }
                         >
-                            <Label>Profile </Label>
+                            <Label htmlFor="password" className="block text-gray-700 text-lg">
+                                Password <span className="text-red-400">*</span>
+                            </Label>
                             <Input
-                                accept="image/*"
-                                type="file"
-                                onChange={ changeFileHandler }
-                                className="cursor-pointer"
+                                id="password"
+                                placeholder="********"
+                                type="password"
+                                className="mt-1 p-3 border border-gray-300 rounded-md outline-none focus:border-blue-500 transition-all w-full"
+                                value={ input.password }
+                                name="password"
+                                onChange={ changeEventHandler }
                             />
                         </motion.div>
 
-
-                    </motion.div>
-                    { loading ? (
-                        <Button className="w-full my-4">
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
-                        </Button>
-                    ) : (
                         <motion.div
-                            initial={ { scale: 0.8, opacity: 0 } }
-                            animate={ { scale: 1, opacity: 1 } }
-                            transition={ { delay: 0.4 } }
+                            className="mb-6"
+                            initial={ { x: -50, opacity: 0 } }
+                            animate={ { x: 0, opacity: 1 } }
+                            transition={ { delay: 0.7 } }
                         >
-                            <Button type="submit" className="w-full my-4">
-                                Signup
-                            </Button>
+                            <Label className="block text-gray-700 mb-2 text-lg">
+                                I am a: <span className="text-red-400">*</span>
+                            </Label>
+                            <RadioGroup
+                                className="flex gap-4"
+                                value={ input.role }
+                                onValueChange={ (value) => setInput({ ...input, role: value }) }
+                            >
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="student"
+                                        id="student"
+                                        className="cursor-pointer"
+                                        checked={ input.role === 'student' }
+                                        onChange={ changeEventHandler }
+                                    />
+                                    <Label htmlFor="student" className="text-gray-700 cursor-pointer">
+                                        JobSeeker
+                                    </Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="recruiter"
+                                        id="recruiter"
+                                        className="cursor-pointer"
+                                        checked={ input.role === 'recruiter' }
+                                        onChange={ changeEventHandler }
+                                    />
+                                    <Label htmlFor="recruiter" className="text-gray-700 cursor-pointer">
+                                        Recruiter
+                                    </Label>
+                                </div>
+                            </RadioGroup>
                         </motion.div>
-                    ) }
-                    <motion.span
-                        className="text-sm"
-                        initial={ { opacity: 0 } }
-                        animate={ { opacity: 1 } }
-                        transition={ { delay: 0.6 } }
-                    >
-                        Already have an account? <Link to="/login" className="text-blue-600">Login</Link>
-                    </motion.span>
-                </motion.form>
+
+                        { loading ? (
+                            <Button className="w-full my-2 bg-blue-600 text-white">
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Please wait...
+                            </Button>
+                        ) : (
+                            <Button
+                                className="w-full bg-blue-600 text-white hover:bg-blue-700 transition-all"
+                                type="submit"
+                            >
+                                Sign Up
+                            </Button>
+                        ) }
+
+                        <p className="mt-4 text-center">
+                            Already have an account?
+                            <Link to="/login" className="text-blue-500 mx-1">
+                                Sign In
+                            </Link>
+                        </p>
+                    </form>
+                </motion.div>
             </motion.div>
-        </motion.div>
+        </>
     );
 };
 
