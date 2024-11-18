@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corsOptions = {
-    origin: "https://hire-hub-chandan.vercel.app",
+    origin: '*',
     credentials: true
 };
 
