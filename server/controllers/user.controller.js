@@ -6,28 +6,27 @@ import cloudinary from "../utils/cloudinary.js";
 
 export const register = async(req, res) => {
     try {
-        const { fullname, email, password, role } = req.body;
+        const { fullname, email, password, role, phoneNumber } = req.body;
 
         console.log(fullname, email, password, role);
 
         // Check if any required field is missing
-        if (!fullname || !email || !password || !role) {
+        if (!fullname || !email || !password || !role || !phoneNumber) {
             return res.status(400).json({
-                message: "Something is missing",
+                message: "Required All Fileds",
                 success: false,
             });
         }
 
-        // Check if the file exists and upload it if present
-        let profilePhotoUrl = null; // Default to null if no file is uploaded
+
+        let profilePhotoUrl = null;
         const file = req.file;
         if (file) {
             const fileUri = getDataUri(file);
             const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-            profilePhotoUrl = cloudResponse.secure_url; // Assign Cloudinary URL to the profile photo
+            profilePhotoUrl = cloudResponse.secure_url;
         }
 
-        // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({
@@ -36,18 +35,17 @@ export const register = async(req, res) => {
             });
         }
 
-        // Hash the password before storing
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create a new user with the provided data
         const newUser = await User.create({
-            fullname, // Use 'fullname' as per the schema
+            fullname,
             email,
-            // Ensure phoneNumber is included
+
             password: hashedPassword,
             role,
+            phoneNumber,
             profile: {
-                profilePhoto: profilePhotoUrl, // Include profile photo URL if provided
+                profilePhoto: profilePhotoUrl,
             },
         });
 
@@ -106,7 +104,7 @@ export const login = async(req, res) => {
         const tokenData = {
             userId: user._id
         }
-        const token = await jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
+        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
 
         return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({

@@ -109,7 +109,7 @@ const PostJob = () => {
                             />
                         </div>
                         <div>
-                            <Label>Salary<span className='text-red-500'>*</span></Label>
+                            <Label>Salary LPA<span className='text-red-500'>*</span></Label>
                             <Input
                                 type="text"
                                 name="salary"

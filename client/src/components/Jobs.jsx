@@ -7,29 +7,34 @@ import { motion } from 'framer-motion';
 
 const Jobs = () => {
     const { allJobs, searchedQuery } = useSelector(store => store.job);
-    const [filterJobs, setFilterJobs] = useState(allJobs);
-    const [showFilters, setShowFilters] = useState(false); // State for showing filter card on mobile
+    const [filteredJobs, setFilteredJobs] = useState([]);
+
+    const [showFilters, setShowFilters] = useState(false);
 
     useEffect(() => {
         if (searchedQuery) {
             const queryWords = searchedQuery.toLowerCase().split(" ");
-            const filteredJobs = allJobs.filter(job => {
+            const filtered = allJobs.filter(job => {
+                const searchFields = [
+                    job.title,
+                    job.description,
+                    job.requirements?.join(" "), // Join requirements array into a single string
+                    job.location
+                ];
                 return queryWords.some(word =>
-                    job.title.toLowerCase().includes(word) ||
-                    job.description.toLowerCase().includes(word) ||
-                    job.location.toLowerCase().includes(word)
+                    searchFields.some(field => field?.toLowerCase().includes(word))
                 );
             });
-            setFilterJobs(filteredJobs);
+            setFilteredJobs(filtered);
         } else {
-            setFilterJobs(allJobs);
+            setFilteredJobs(allJobs);
         }
     }, [allJobs, searchedQuery]);
 
     return (
-        <div className="bg-white">
+        <div className="bg-white min-h-screen">
             <Navbar />
-            <div className="max-w-7xl mx-auto pt-16">
+            <div className="max-w-7xl mx-auto pt-20">
                 <div className="flex flex-col md:flex-row gap-5">
                     {/* Toggle button for mobile */ }
                     <button
@@ -48,33 +53,37 @@ const Jobs = () => {
                     </div>
 
                     {/* Jobs Section */ }
-                    { filterJobs.length <= 0 ? (
-                        <span className="text-blue-600 font-bold">Job not found</span>
-                    ) : (
-                        <motion.div
-                            className="flex-1 h-[88vh] overflow-y-auto pb-5"
-                            initial={ { opacity: 0 } }
-                            animate={ { opacity: 1 } }
-                            transition={ { duration: 0.5 } }
-                        >
+                    <motion.div
+                        className="flex-1 h-[88vh] overflow-y-auto pb-5"
+                        initial={ { opacity: 0 } }
+                        animate={ { opacity: 1 } }
+                        transition={ { duration: 0.5 } }
+                    >
+                        { filteredJobs.length > 0 ? (
                             <motion.div
                                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
                                 layout
                             >
-                                { filterJobs.map(job => (
+                                { filteredJobs.map(job => (
                                     <motion.div
                                         key={ job?._id }
                                         layout
                                         initial={ { opacity: 0, y: 50 } }
                                         animate={ { opacity: 1, y: 0 } }
-                                        transition={ { type: 'spring', stiffness: 200, damping: 20 } }
+                                        transition={ {
+                                            type: 'spring',
+                                            stiffness: 200,
+                                            damping: 20
+                                        } }
                                     >
                                         <Job job={ job } />
                                     </motion.div>
                                 )) }
                             </motion.div>
-                        </motion.div>
-                    ) }
+                        ) : (
+                            <span className="text-blue-600 font-bold">No jobs found</span>
+                        ) }
+                    </motion.div>
                 </div>
             </div>
         </div>

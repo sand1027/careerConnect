@@ -14,7 +14,7 @@ const filterData = [
     },
     {
         filterType: "Salary",
-        array: ["0-40k", "42-1lakh", "1lakh to 5lakh"],
+        array: ["React.js", "Java", "DevOps", "Swift", "Flutter", "AWS"]
     },
 ];
 
