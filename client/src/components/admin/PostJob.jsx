@@ -60,10 +60,10 @@ const PostJob = () => {
     };
 
     return (
-        <div className="bg-white min-h-screen">
+        <div className="bg-white min-h-screen  p-10">
             <Navbar />
             <motion.div
-                className="flex items-center justify-center w-full my-5 px-4"
+                className="flex items-center justify-center w-full my-5 "
                 initial={ { opacity: 0, y: -20 } }
                 animate={ { opacity: 1, y: 0 } }
                 transition={ { duration: 0.6 } }

@@ -6,13 +6,15 @@ import cloudinary from "../utils/cloudinary.js";
 
 export const register = async(req, res) => {
     try {
-        const { fullname, email, phoneNumber, password, role } = req.body;
+        const { fullname, email, password, role } = req.body;
+
+        console.log(fullname, email, password, role);
 
         // Check if any required field is missing
-        if (!fullname || !email || !phoneNumber || !password || !role) {
+        if (!fullname || !email || !password || !role) {
             return res.status(400).json({
                 message: "Something is missing",
-                success: false
+                success: false,
             });
         }
 
@@ -26,8 +28,8 @@ export const register = async(req, res) => {
         }
 
         // Check if user already exists
-        const user = await User.findOne({ email });
-        if (user) {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
             return res.status(400).json({
                 message: 'User already exists with this email.',
                 success: false,
@@ -37,31 +39,37 @@ export const register = async(req, res) => {
         // Hash the password before storing
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create a new user with or without the profile photo URL
-        await User.create({
-            fullname,
+        // Create a new user with the provided data
+        const newUser = await User.create({
+            fullname, // Use 'fullname' as per the schema
             email,
-            phoneNumber,
+            // Ensure phoneNumber is included
             password: hashedPassword,
             role,
             profile: {
-                profilePhoto: profilePhotoUrl,
-            }
+                profilePhoto: profilePhotoUrl, // Include profile photo URL if provided
+            },
         });
 
         return res.status(201).json({
             message: "Account created successfully.",
-            success: true
+            success: true,
+            user: {
+                fullname: newUser.fullname,
+                email: newUser.email,
+                phoneNumber: newUser.phoneNumber,
+                role: newUser.role,
+                profilePhoto: newUser.profile.profilePhoto,
+            },
         });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return res.status(500).json({
             message: "Server error",
-            success: false
+            success: false,
         });
     }
 };
-
 
 export const login = async(req, res) => {
     try {
@@ -100,14 +108,6 @@ export const login = async(req, res) => {
         }
         const token = await jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
-        user = {
-            _id: user._id,
-            fullname: user.fullname,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-            role: user.role,
-            profile: user.profile
-        }
 
         return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
             message: `Welcome back ${user.fullname}`,
@@ -118,6 +118,8 @@ export const login = async(req, res) => {
         console.log(error);
     }
 }
+
+
 export const logout = async(req, res) => {
     try {
         return res.status(200).cookie("token", "", { maxAge: 0 }).json({
@@ -128,6 +130,7 @@ export const logout = async(req, res) => {
         console.log(error);
     }
 }
+
 export const updateProfile = async(req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;

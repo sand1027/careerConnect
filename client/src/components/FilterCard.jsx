@@ -22,14 +22,17 @@ const FilterCard = () => {
     const [selectedFilters, setSelectedFilters] = useState({
         Location: [],
         Industry: [],
-        Salary: [],
+        Salary: []
     });
 
     const dispatch = useDispatch();
 
+    // Handle selection of filters, toggle on and off
     const handleFilterChange = (filterType, value) => {
         setSelectedFilters((prevFilters) => {
             const currentSelections = prevFilters[filterType];
+
+            // If the value is already selected, remove it; otherwise, add it
             const newSelections = currentSelections.includes(value)
                 ? currentSelections.filter((item) => item !== value)
                 : [...currentSelections, value];
@@ -41,32 +44,34 @@ const FilterCard = () => {
         });
     };
 
+    // Create a combined search query from the selected filters
     useEffect(() => {
+        // Convert arrays to strings for the search query
         const searchQuery = Object.values(selectedFilters)
-            .flat()
-            .join(' ')
-            .trim();
+            .flat() // flatten arrays into a single array
+            .join(' ') // join all selections into a string
+            .trim(); // remove trailing spaces
         dispatch(setSearchedQuery(searchQuery));
     }, [selectedFilters, dispatch]);
 
     return (
         <motion.div
-            className="w-full bg-blue-50 p-5 rounded-md shadow-md md:rounded-lg md:w-[80%] lg:w-[75%]"
+            className='w-full bg-blue-50 p-5 rounded-md shadow-md'
             initial={ { opacity: 0 } }
             animate={ { opacity: 1 } }
             transition={ { duration: 0.5 } }
         >
-            <h1 className="font-bold text-lg text-blue-700">Filter Jobs</h1>
-            <hr className="mt-3" />
+            <h1 className='font-bold text-lg text-blue-700'>Filter Jobs</h1>
+            <hr className='mt-3' />
             { filterData.map((data, index) => (
-                <div key={ index } className="mt-3">
-                    <h1 className="font-bold text-md text-blue-600">{ data.filterType }</h1>
+                <div key={ index } className='mt-3'>
+                    <h1 className='font-bold text-md text-blue-600'>{ data.filterType }</h1>
                     { data.array.map((item, idx) => {
                         const itemId = `id${index}-${idx}`;
                         const isChecked = selectedFilters[data.filterType].includes(item);
 
                         return (
-                            <div key={ itemId } className="flex items-center space-x-2 my-2">
+                            <div key={ itemId } className='flex items-center space-x-2 my-2'>
                                 <input
                                     type="checkbox"
                                     id={ itemId }
@@ -74,7 +79,7 @@ const FilterCard = () => {
                                     onChange={ () => handleFilterChange(data.filterType, item) }
                                     className="text-blue-600"
                                 />
-                                <label htmlFor={ itemId } className="text-blue-600">{ item }</label>
+                                <label htmlFor={ itemId } className='text-blue-600'>{ item }</label>
                             </div>
                         );
                     }) }

@@ -12,10 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setUser } from '@/redux/authSlice';
 import { Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-
 const Signup = () => {
     const [input, setInput] = useState({
-        name: '',
+        fullname: '', // Updated key
         email: '',
         password: '',
         role: '',
@@ -89,16 +88,16 @@ const Signup = () => {
                             animate={ { x: 0, opacity: 1 } }
                             transition={ { delay: 0.4 } }
                         >
-                            <Label htmlFor="name" className="block text-gray-700 text-lg">
+                            <Label htmlFor="fullname" className="block text-gray-700 text-lg">
                                 Full Name <span className="text-red-400">*</span>
                             </Label>
                             <Input
-                                id="name"
+                                id="fullname"
                                 placeholder="John Doe"
                                 type="text"
                                 className="mt-1 p-3 border border-gray-300 rounded-md outline-none focus:border-blue-500 transition-all w-full"
-                                value={ input.name }
-                                name="name"
+                                value={ input.fullname } // Updated key
+                                name="fullname" // Updated key
                                 onChange={ changeEventHandler }
                             />
                         </motion.div>
