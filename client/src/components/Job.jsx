@@ -14,7 +14,7 @@ import { USER_API_END_POINT } from '@/utils/constant';
 
 const Job = ({ job }) => {
     const { savedJobs } = useSelector(store => store.auth)
-    const { searchedQuery } = useSelector(store => store.job)
+
 
     const navigate = useNavigate();
     const dispatch = useDispatch()

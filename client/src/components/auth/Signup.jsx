@@ -60,7 +60,7 @@ const Signup = () => {
             }
         } catch (error) {
             console.error(error);
-            toast.error(error.response?.data?.message || 'Something went wrong');
+            toast.error(error.response?.data?.message);
         } finally {
             dispatch(setLoading(false));
         }
