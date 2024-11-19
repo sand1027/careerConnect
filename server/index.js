@@ -25,10 +25,16 @@ app.use(cors(corsOptions));
 
 const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    res.send('Server is running');
+app.get('/', async(req, res) => {
+    try {
+        // Call the connectDB function
+        await connectDB();
+        res.send('Server is running and database connected successfully!');
+    } catch (error) {
+        console.error('Database connection error:', error);
+        res.status(500).send('Server is running, but failed to connect to the database.');
+    }
 });
-
 // api's
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
