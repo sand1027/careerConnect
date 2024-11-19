@@ -71,51 +71,69 @@ export const register = async(req, res) => {
 
 export const login = async(req, res) => {
     try {
+        console.log("Request body received:", req.body);
+
         const { email, password, role } = req.body;
 
         if (!email || !password || !role) {
+            console.log("Validation failed: Missing fields");
             return res.status(400).json({
                 message: "Something is missing",
-                success: false
+                success: false,
             });
-        };
+        }
+
+        console.log("Checking user existence");
         let user = await User.findOne({ email });
         if (!user) {
+            console.log("User not found for email:", email);
             return res.status(400).json({
                 message: "Incorrect email or password.",
                 success: false,
-            })
+            });
         }
+
+        console.log("Comparing passwords");
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) {
+            console.log("Password mismatch for email:", email);
             return res.status(400).json({
                 message: "Incorrect email or password.",
                 success: false,
-            })
-        };
-        // check role is correct or not
+            });
+        }
+
+        console.log("Checking user role");
         if (role !== user.role) {
+            console.log("Role mismatch for user:", email);
             return res.status(400).json({
                 message: "Account doesn't exist with current role.",
-                success: false
-            })
-        };
-
-        const tokenData = {
-            userId: user._id
+                success: false,
+            });
         }
+
+        console.log("Generating JWT");
+        const tokenData = { userId: user._id };
         const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
-
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
-            message: `Welcome back ${user.fullname}`,
-            user,
-            success: true
-        })
+        console.log("Returning success response");
+        return res
+            .status(200)
+            .cookie("token", token, {
+                maxAge: 1 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
+                sameSite: 'strict',
+            })
+            .json({
+                message: `Welcome back ${user.fullname}`,
+                user,
+                success: true,
+            });
     } catch (error) {
-        console.log(error);
+        console.error("Error in login route:", error);
+        return res.status(500).json({ message: "Internal Server Error", success: false });
     }
-}
+};
 
 
 export const logout = async(req, res) => {
