@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import Navbar from './shared/Navbar';
+import Footer from './shared/Footer';
 
 const JobDescription = () => {
     const { singleJob } = useSelector(store => store.job);
@@ -57,7 +58,7 @@ const JobDescription = () => {
                 initial={ { opacity: 0, y: 50 } }
                 animate={ { opacity: 1, y: 0 } }
                 transition={ { duration: 0.5 } }
-                className='max-w-6xl mx-auto pt-16 bg-white mt-3 sm:mt-0'
+                className='max-w-6xl mx-auto pt-16  first-letter: bg-white p-4  sm:p-15 lg:p-20  sm:mt-0'
             >
 
                 {/* Job Header Section */ }
@@ -103,6 +104,7 @@ const JobDescription = () => {
                     </div>
                 </motion.div>
             </motion.div>
+            <Footer />
         </>
     )
 }
