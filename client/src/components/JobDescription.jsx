@@ -100,7 +100,7 @@ const JobDescription = () => {
                         <p className='text-gray-600'><strong>Experience:</strong> { singleJob?.experience }</p>
                         <p className='text-gray-600'><strong>Salary:</strong> { singleJob?.salary } </p>
                         <p className='text-gray-600'><strong>Total Applicants:</strong> { singleJob?.applications?.length }</p>
-                        <p className='text-gray-600'><strong>Posted Date:</strong> { singleJob?.createdAt.split("T")[0] }</p>
+                        <p className='text-gray-600'><strong>Posted Date:</strong> { singleJob?.createdAt?.split("T")[0] }</p>
                     </div>
                 </motion.div>
             </motion.div>

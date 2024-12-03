@@ -24,27 +24,28 @@ const LatestJobs = () => {
     };
 
     return (
-        <div className='max-w-7xl mx-auto my-20 px-4'>
+        <div className="max-w-7xl mx-auto my-20 px-4">
             {/* Title with Motion */ }
             <motion.h1
-                className='text-4xl font-extrabold text-center mb-10'
+                className="text-4xl font-extrabold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-purple-500 to-blue-600"
                 initial={ { opacity: 0, y: -50 } }
                 animate={ { opacity: 1, y: 0 } }
                 transition={ { duration: 0.5 } }
+                aria-label="Latest and Top Job Openings"
             >
-                <span className='text-blue-300'>Latest & Top</span> Job Openings
+                <span>Latest & Top</span> Job Openings
             </motion.h1>
 
             {/* Job Cards Grid */ }
             <motion.div
-                className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
                 variants={ containerVariants }
                 initial="hidden"
                 animate="visible"
             >
                 { jobsList.length === 0 ? (
                     <motion.span
-                        className='text-center text-lg text-gray-500'
+                        className="text-center text-lg text-gray-500"
                         initial={ { opacity: 0 } }
                         animate={ { opacity: 1 } }
                         transition={ { duration: 0.3 } }

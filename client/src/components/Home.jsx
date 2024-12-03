@@ -32,7 +32,7 @@ const Home = () => {
       <Navbar />
 
       {/* Main content with padding to avoid overlap */ }
-      <div className="pt-16">
+      <div className="pt-16  bg-gradient-to-br from-[#00040A] to-[#001636]">
         <HeroSection />
         <CategoryCarousel />
         <LatestJobs />

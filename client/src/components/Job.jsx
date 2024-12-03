@@ -14,6 +14,7 @@ import { USER_API_END_POINT } from '@/utils/constant';
 
 const Job = ({ job }) => {
     const { savedJobs } = useSelector(store => store.auth)
+    console.log(job)
 
 
     const navigate = useNavigate();
@@ -73,7 +74,7 @@ const Job = ({ job }) => {
                 </Button>
                 <div>
                     <h1 className='font-medium text-lg'>{ job?.company?.name }</h1>
-                    <p className='text-sm text-gray-500'>{ job?.company?.location }</p>
+                    <p className='text-sm text-gray-500'>{ job?.location }</p>
                 </div>
             </div>
 
