@@ -1,24 +1,20 @@
 import React, { useEffect } from 'react';
 import { Button } from './ui/button';
-import { Bookmark } from 'lucide-react';
+import { BookmarkPlus, ArrowUpRight } from 'lucide-react';
 import { Avatar, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSearchedQuery } from '@/redux/jobSlice';
-import axios from 'axios';
 import { setsavedJobs } from '@/redux/authSlice';
 import { toast } from 'sonner';
 import { USER_API_END_POINT } from '@/utils/constant';
+import { Card } from '@/components/ui/card';
 
 const Job = ({ job }) => {
-    const { savedJobs } = useSelector(store => store.auth)
-    console.log(job)
-
-
+    const { savedJobs } = useSelector(store => store.auth);
     const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const daysAgoFunction = (mongodbTime) => {
         const createdAt = new Date(mongodbTime);
@@ -28,89 +24,60 @@ const Job = ({ job }) => {
     };
 
     const handleSaveForLater = async (jobId) => {
-        console.log('entered')
         try {
-            const response = await axios.post(`${USER_API_END_POINT}/savedjob`, { jobId }, {
-                withCredentials: true
-            });
-            console.log(response);
+            const response = await axios.post(`${USER_API_END_POINT}/savedjob`, { jobId }, { withCredentials: true });
             if (response) {
-                dispatch(setsavedJobs(response.data.savedJobs))
-                toast.success(response.data.message)
+                dispatch(setsavedJobs(response.data.savedJobs));
+                toast.success(response.data.message);
             }
         } catch (error) {
-            console.log(error);
-            toast.success(error.response.data.message)
+            console.error(error);
+            toast.success(error.response.data.message);
         }
     };
+
     return (
         <motion.div
-            className='p-5 rounded-md shadow-lg bg-white border border-gray-100 hover:shadow-2xl cursor-pointer'
-            whileHover={ { scale: 1.08 } }
-            initial={ { opacity: 0, y: 20 } } // Initial state before the component becomes visible
-            animate={ { opacity: 1, y: 0 } }  // Final state
-            transition={ {
-                type: 'spring',
-                stiffness: 300,
-                damping: 20,
-                duration: 0.9,
-                ease: 'easeInOut'
-            } }
+            className="flex items-stretch gap-4 p-4"
+            whileHover={ { scale: 1.05 } }
+            initial={ { opacity: 0, y: 20 } }
+            animate={ { opacity: 1, y: 0 } }
+            transition={ { type: 'spring', stiffness: 300, damping: 20, duration: 0.9 } }
         >
-            <div className='flex items-center justify-between'>
-                <p className='text-sm text-gray-500'>
-                    { daysAgoFunction(job?.createdAt) === 0 ? 'Today' : `${daysAgoFunction(job?.createdAt)} days ago` }
-                </p>
-                <Button variant='outline' className='rounded-full' size='icon'>
-                    <Bookmark />
-                </Button>
-            </div>
-
-            <div className='flex items-center gap-2 my-2'>
-                <Button className='p-6' variant='outline' size='icon'>
-                    <Avatar>
-                        <AvatarImage src={ job?.company?.logo } />
-                    </Avatar>
-                </Button>
-                <div>
-                    <h1 className='font-medium text-lg'>{ job?.company?.name }</h1>
-                    <p className='text-sm text-gray-500'>{ job?.location }</p>
+            <Card key={ job.id } className="bg-gray-900 border-gray-800 w-full p-6 rounded-lg shadow-md">
+                <div className="flex items-start justify-between">
+                    <div className="flex items-center">
+                        <Avatar>
+                            <AvatarImage src={ job?.company?.logo } alt={ job?.company?.name } />
+                        </Avatar>
+                        <div className="ml-4">
+                            <h3 className="text-lg font-semibold text-white">{ job?.title }</h3>
+                            <p className="text-gray-400">{ job?.company?.name }</p>
+                        </div>
+                    </div>
+                    <Button variant="ghost" size="icon" onClick={ () => handleSaveForLater(job._id) }>
+                        <BookmarkPlus className="h-5 w-5 text-gray-400" />
+                    </Button>
                 </div>
-            </div>
 
-            <div>
-                <h1 className='font-bold text-lg my-2 text-blue-700 truncate' style={ { maxWidth: '250px' } }>
-                    { job?.title }
-                </h1>
-                <p className='text-sm text-gray-600 line-clamp-3 overflow-hidden'>
-                    { job?.description }
-                </p>
-            </div>
+                <div className="mt-4">
+                    <div className="flex items-center text-gray-400 mb-2">
+                        <Badge variant="secondary" className="mr-2">{ job?.position } Positions</Badge>
+                        <span className="text-sm">{ job?.location }</span>
+                    </div>
+                    <p className="text-gray-300 font-medium">{ job?.salary } LPA</p>
 
-            <div className='flex items-center gap-2 mt-4'>
-                <Badge className='text-blue-700 font-bold whitespace-nowrap' variant='ghost'>
-                    { job?.position } Positions
-                </Badge>
-                <Badge className='text-red-600 font-bold whitespace-nowrap' variant='ghost'>
-                    { job?.jobType }
-                </Badge>
-                <Badge className='text-purple-600 font-bold whitespace-nowrap' variant='ghost'>
-                    { job?.salary } LPA
-                </Badge>
-            </div>
-
-            <div className='flex items-center gap-4 mt-4'>
-                <Button onClick={ () => navigate(`/description/${job?._id}`) } variant='outline'>
-                    Details
-                </Button>
-                {
-                    savedJobs?.some(savedJobs => savedJobs._id.toString() === job?._id.toString()) ?
-                        <Button className='bg-green-500 text-white' >Saved Already</Button> :
-                        <Button className='bg-blue-700 text-white' onClick={ () => handleSaveForLater(job._id) }>Save For Later</Button>
-                }
-
-
-            </div>
+                    <div className="mt-4 flex items-center justify-between">
+                        <span className="text-sm text-gray-400">
+                            { daysAgoFunction(job?.createdAt) === 0 ? 'Today' : `${daysAgoFunction(job?.createdAt)} days ago` }
+                        </span>
+                        <Button variant="ghost" size="sm" onClick={ () => navigate(`/description/${job?._id}`) }>
+                            Details
+                            <ArrowUpRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
+            </Card>
         </motion.div>
     );
 };

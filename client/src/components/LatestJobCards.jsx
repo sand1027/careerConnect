@@ -53,7 +53,7 @@ const LatestJobCards = ({ job }) => {
                     <div className="mt-4 flex items-center justify-between">
                         <span className="text-sm text-gray-400">{ job?.position } Positions</span>
                         <Link to={ `/description/${job._id}` }>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" className='text-blue-500'>
                                 Details
                                 <ArrowUpRight className="ml-2 h-4 w-4" />
                             </Button>

@@ -140,7 +140,7 @@ const Navbar = () => {
                                             <li className="cursor-pointer hover:text-white font-bold">Home</li>
                                         </Link>
                                         <Link to="/jobs">
-                                            <li className="cursor-pointer hover:text-whitefont-bold">Jobs</li>
+                                            <li className="cursor-pointer hover:text-white font-bold">Jobs</li>
                                         </Link>
                                         <Link to="/browse">
                                             <li className="cursor-pointer hover:text-white font-bold">Browse</li>
