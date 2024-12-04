@@ -40,12 +40,12 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo Section */ }
-                    {/* <div
+                    <div
                         className="text-2xl font-bold text-white cursor-pointer flex items-center"
                         onClick={ () => navigate('/') }
                     >
                         Hire <span className="text-blue-400">Hub</span>
-                    </div> */}
+                    </div>
 
                     {/* Mobile Menu Toggle */ }
                     <div className="md:hidden flex items-center">
@@ -53,6 +53,7 @@ const Navbar = () => {
                             variant="ghost"
                             size="icon"
                             onClick={ toggleMenu }
+                            className="bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent"
                         >
                             { menuOpen ? (
                                 <X className="h-6 w-6 text-gray-300" />
@@ -62,20 +63,23 @@ const Navbar = () => {
                         </Button>
                     </div>
 
-                    {/* Desktop Navigation */ }
-                    {/* Desktop Navigation */ }
-                    <div className="hidden md:flex flex-1 items-center justify-between">
-                        {/* Left Section: Logo */ }
-                        <div
-                            className="text-2xl font-bold text-white cursor-pointer flex items-center"
-                            onClick={ () => navigate('/') }
-                        >
-                            Hire <span className="text-blue-400">Hub</span>
-                        </div>
 
-                        {/* Middle Section: Navigation Links */ }
-                        <div className="flex items-center gap-6">
-                            { user ? (
+                    {/* Desktop Navigation */ }
+                    <div className="hidden md:flex flex-1 justify-end items-center gap-4">
+                        {/* Right Section: Profile/Login/Signup */ }
+                        { user ? (
+                            <>
+                                <ul className="flex font-sans items-center space-x-6 text-gray-300">
+                                    <Link to="/">
+                                        <li className="cursor-pointer hover:text-white font-bold">Home</li>
+                                    </Link>
+                                    <Link to="/jobs">
+                                        <li className="cursor-pointer hover:text-white font-bold">Jobs</li>
+                                    </Link>
+                                    <Link to="/browse">
+                                        <li className="cursor-pointer hover:text-white font-bold">Browse</li>
+                                    </Link>
+                                </ul>
                                 <Popover>
                                     <PopoverTrigger asChild>
                                         <Avatar className="w-8 h-8 rounded-full overflow-hidden cursor-pointer">
@@ -109,7 +113,6 @@ const Navbar = () => {
                                                     </Button>
                                                 </Link>
                                             ) }
-
                                             <Button
                                                 onClick={ logoutHandler }
                                                 variant="ghost"
@@ -122,52 +125,31 @@ const Navbar = () => {
                                         </div>
                                     </PopoverContent>
                                 </Popover>
-                            ) : null }
-
-                            <ul className="flex font-sans items-center space-x-6 text-gray-300">
-                                { user && user.role === 'recruiter' ? (
-                                    <>
-                                        <Link to="/admin/companies">
-                                            <li className="cursor-pointer hover:text-white">Companies</li>
-                                        </Link>
-                                        <Link to="/admin/jobs">
-                                            <li className="cursor-pointer hover:text-white">Jobs</li>
-                                        </Link>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Link to="/">
-                                            <li className="cursor-pointer hover:text-white font-bold">Home</li>
-                                        </Link>
-                                        <Link to="/jobs">
-                                            <li className="cursor-pointer hover:text-white font-bold">Jobs</li>
-                                        </Link>
-                                        <Link to="/browse">
-                                            <li className="cursor-pointer hover:text-white font-bold">Browse</li>
-                                        </Link>
-                                    </>
-                                ) }
-                            </ul>
-                        </div>
-
-                        {/* Right Section: Login/Signup Buttons */ }
-                        <div className="flex items-center gap-2">
-                            { !user && (
-                                <>
-                                    <Link to="/login">
-                                        <Button variant="outline" className="border-blue-400 text-blue-400">
-                                            Login
-                                        </Button>
+                            </>
+                        ) : (
+                            <>
+                                <ul className="flex font-sans items-center space-x-6 text-gray-300">
+                                    <Link to="/">
+                                        <li className="cursor-pointer hover:text-white font-bold">Home</li>
                                     </Link>
-                                    <Link to="/signup">
-                                        <Button className="bg-blue-400 hover:bg-blue-500 text-white">Signup</Button>
+                                    <Link to="/jobs">
+                                        <li className="cursor-pointer hover:text-white font-bold">Jobs</li>
                                     </Link>
-                                </>
-                            ) }
-                        </div>
+                                    <Link to="/browse">
+                                        <li className="cursor-pointer hover:text-white font-bold">Browse</li>
+                                    </Link>
+                                </ul>
+                                <Link to="/login">
+                                    <Button variant="outline" className="border-blue-400 text-blue-400">
+                                        Login
+                                    </Button>
+                                </Link>
+                                <Link to="/signup">
+                                    <Button className="bg-blue-400 hover:bg-blue-500 text-white">Signup</Button>
+                                </Link>
+                            </>
+                        ) }
                     </div>
-
-
                 </div>
             </div>
 
@@ -175,32 +157,15 @@ const Navbar = () => {
             { menuOpen && (
                 <div className="absolute top-16 left-0 right-0 bg-gradient-to-r from-[#00040A] to-[#001636] p-4 md:hidden z-50">
                     <ul className="space-y-4 text-gray-300">
-                        { user?.role === 'recruiter' ? (
-                            <>
-                                <li className="cursor-pointer hover:text-white">
-                                    <Link to="/admin/companies">Companies</Link>
-                                </li>
-                                <li className="cursor-pointer hover:text-white">
-                                    <Link to="/admin/jobs">Jobs</Link>
-                                </li>
-                            </>
-                        ) : (
-                            <>
-                                <li className="cursor-pointer hover:text-white">
-                                    <Link to="/">Home</Link>
-                                </li>
-                                <li className="cursor-pointer hover:text-white">
-                                    <Link to="/jobs">Jobs</Link>
-                                </li>
-                                <li className="cursor-pointer hover:text-white">
-                                    <Link to="/browse">Browse</Link>
-                                </li>
-                                <li className="cursor-pointer hover:text-white">
-                                    <Link to="/profile">Profile</Link>
-                                </li>
-                            </>
-                        ) }
-
+                        <li className="cursor-pointer hover:text-white">
+                            <Link to="/">Home</Link>
+                        </li>
+                        <li className="cursor-pointer hover:text-white">
+                            <Link to="/jobs">Jobs</Link>
+                        </li>
+                        <li className="cursor-pointer hover:text-white">
+                            <Link to="/browse">Browse</Link>
+                        </li>
                         { !user && (
                             <div className="flex flex-col gap-2">
                                 <Link to="/login">

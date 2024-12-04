@@ -10,6 +10,7 @@ import { setsavedJobs } from '@/redux/authSlice';
 import { toast } from 'sonner';
 import { USER_API_END_POINT } from '@/utils/constant';
 import { Card } from '@/components/ui/card';
+import axios from 'axios';
 
 const Job = ({ job }) => {
     const { savedJobs } = useSelector(store => store.auth);
@@ -24,15 +25,18 @@ const Job = ({ job }) => {
     };
 
     const handleSaveForLater = async (jobId) => {
+        console.log('Save button clicked');  // Debugging message
         try {
-            const response = await axios.post(`${USER_API_END_POINT}/savedjob`, { jobId }, { withCredentials: true });
+            const response = await axios.post(`${USER_API_END_POINT}/savedjob`, { jobId }, {
+                withCredentials: true
+            });
             if (response) {
                 dispatch(setsavedJobs(response.data.savedJobs));
                 toast.success(response.data.message);
             }
         } catch (error) {
-            console.error(error);
-            toast.success(error.response.data.message);
+            console.log(error);
+            toast.error(error.response?.data?.message || 'Error saving job');
         }
     };
 
@@ -55,7 +59,12 @@ const Job = ({ job }) => {
                             <p className="text-gray-400">{ job?.company?.name }</p>
                         </div>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={ () => handleSaveForLater(job._id) }>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={ () => handleSaveForLater(job._id) }
+                        style={ { zIndex: 999 } }  // Ensuring button is on top
+                    >
                         <BookmarkPlus className="h-5 w-5 text-gray-400" />
                     </Button>
                 </div>
@@ -65,13 +74,29 @@ const Job = ({ job }) => {
                         <Badge variant="secondary" className="mr-2">{ job?.position } Positions</Badge>
                         <span className="text-sm">{ job?.location }</span>
                     </div>
-                    <p className="text-gray-300 font-medium">{ job?.salary } LPA</p>
+                    <p className="text-gray-300 font-medium"> ₹ { job?.salary } LPA</p>
 
                     <div className="mt-4 flex items-center justify-between">
-                        <span className="text-sm text-gray-400">
+                        {
+                            savedJobs?.some(savedJob => savedJob._id.toString() === job?._id.toString()) ?
+                                <Button className="bg-green-500 text-white text-xs sm:text-sm py-1 sm:py-2 px-3 sm:px-4">
+                                    Saved Already
+                                </Button> :
+                                <Button className="bg-blue-700 text-white text-xs sm:text-sm py-1 sm:py-2 px-3 sm:px-4"
+                                    onClick={ () => handleSaveForLater(job._id) }>
+                                    Save For Later
+                                </Button>
+                        }
+
+                        <span className="text-xs sm:text-sm text-gray-400">
                             { daysAgoFunction(job?.createdAt) === 0 ? 'Today' : `${daysAgoFunction(job?.createdAt)} days ago` }
                         </span>
-                        <Button variant="ghost" size="sm" onClick={ () => navigate(`/description/${job?._id}`) }>
+
+                        <Button
+                            className="text-blue-400 text-xs sm:text-sm py-1 sm:py-2 px-3 sm:px-4"
+                            variant="ghost" size="sm"
+                            onClick={ () => navigate(`/description/${job?._id}`) }
+                        >
                             Details
                             <ArrowUpRight className="ml-2 h-4 w-4" />
                         </Button>
