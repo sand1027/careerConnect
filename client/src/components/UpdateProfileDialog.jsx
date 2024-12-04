@@ -20,7 +20,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         email: user?.email || "",
         phoneNumber: user?.phoneNumber || "",
         bio: user?.profile?.bio || "",
-        skills: user?.profile?.skills?.map((skill) => skill) || "",
+        skills: user?.profile?.skills?.join(", ") || "", // Combine skills into a comma-separated string
         file: user?.profile?.resume || "",
     });
 
@@ -34,7 +34,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     const fileChangeHandler = (e) => {
         const file = e.target.files?.[0];
         if (file && !file.type.startsWith("image/")) {
-            setFileError("Only images are allowed (.jpeg , .png , .wepe)");
+            setFileError("Only images are allowed (.jpeg, .png, .webp)");
         } else {
             setFileError("");
         }
@@ -48,7 +48,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         formData.append("email", input.email);
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
-        formData.append("skills", input.skills);
+        formData.append("skills", input.skills.split(",").map((skill) => skill.trim())); // Convert back to an array
         if (input.file) {
             formData.append("file", input.file);
         }
@@ -66,7 +66,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Something went wrong");
         } finally {
             setLoading(false);
         }
@@ -79,10 +79,9 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             animate={ { opacity: 1, scale: 1 } }
             transition={ { duration: 0.3 } }
         >
-            <Dialog open={ open }>
+            <Dialog open={ open } onOpenChange={ setOpen }>
                 <DialogContent
                     className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto"
-                    onInteractOutside={ () => setOpen(false) }
                 >
                     <DialogHeader>
                         <DialogTitle>Update Profile</DialogTitle>
@@ -168,7 +167,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 { loading ? (
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                 ) : (
-                                    <span>Submit</span>
+                                    "Submit"
                                 ) }
                             </Button>
                         </DialogFooter>
