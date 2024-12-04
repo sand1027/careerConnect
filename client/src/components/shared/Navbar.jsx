@@ -84,7 +84,7 @@ const Navbar = () => {
                                     <PopoverTrigger asChild>
                                         <Avatar className="w-8 h-8 rounded-full overflow-hidden cursor-pointer">
                                             <AvatarImage
-                                                src={ user?.profile?.profilePhoto }
+                                                src={ user?.profile?.profilePhoto ? user?.profile?.profilePhoto : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq8T0hZUoX8kuRi3EZpZbUDtZ_WqqN9Ll15Q&s' }
                                                 alt="User Avatar"
                                                 className="object-cover w-full h-full"
                                             />

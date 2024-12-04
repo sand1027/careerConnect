@@ -6,6 +6,7 @@ import { setSearchedQuery } from '@/redux/jobSlice';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Input } from './ui/input';
+import { toast } from 'sonner';
 
 const HeroSection = () => {
     const [query, setQuery] = useState('');
@@ -18,6 +19,10 @@ const HeroSection = () => {
         navigate('/browse');
     };
 
+    const handleNavigation = () => {
+        toast.success('Please Login into Recruiter AAccount  ')
+        navigate('/signup')
+    }
     return (
         <div className="relative overflow-hidden pt-16 bg-gradient-to-br from-[#00040A] to-[#001636] min-h-screen text-white px-6 py-16">
             {/* Gradient Background */ }
@@ -56,6 +61,7 @@ const HeroSection = () => {
                     <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button
+                    onClick={ handleNavigation }
                     size="lg"
                     variant="outline"
                     className="border border-gray-600 text-white hover:bg-gray-800 bg-transparent px-8 py-4 rounded-full text-lg cursor-pointer"

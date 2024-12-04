@@ -37,7 +37,7 @@ const Profile = () => {
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-4">
                                 <Avatar className="h-24 w-24">
-                                    <AvatarImage src={ user?.profile?.profilePhoto } alt="profile" />
+                                    <AvatarImage src={ user?.profile?.profilePhoto ? user?.profile?.profilePhoto : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq8T0hZUoX8kuRi3EZpZbUDtZ_WqqN9Ll15Q&s' } alt="profile" />
                                 </Avatar>
                                 <div>
                                     <h1 className="font-medium text-xl text-white">{ user?.fullname }</h1>
