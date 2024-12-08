@@ -88,7 +88,7 @@ const Signup = () => {
                     transition={ { type: 'spring', stiffness: 100 } }
                 >
                     <motion.h1
-                        className="font-bold text-3xl mb-6  text-center"
+                        className="font-bold text-3xl mb-6 text-center"
                         initial={ { opacity: 0 } }
                         animate={ { opacity: 1 } }
                         transition={ { delay: 0.3 } }
@@ -99,59 +99,113 @@ const Signup = () => {
                     <form onSubmit={ submitHandler }>
                         {/* Full Name */ }
                         <motion.div className="mb-4" initial={ { x: -50, opacity: 0 } } animate={ { x: 0, opacity: 1 } } transition={ { delay: 0.4 } }>
-                            <Label htmlFor="fullname" className="block  text-lg">
+                            <Label htmlFor="fullname" className="block text-lg">
                                 Full Name <span className="text-red-400">*</span>
                             </Label>
-                            <Input id="fullname" placeholder="John Doe" type="text" name="fullname" value={ input.fullname } onChange={ changeEventHandler } />
+                            <Input
+                                id="fullname"
+                                placeholder="John Doe"
+                                type="text"
+                                name="fullname"
+                                value={ input.fullname }
+                                onChange={ changeEventHandler }
+                                className="text-white bg-gray-800 border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+                            />
                         </motion.div>
 
                         {/* Email */ }
                         <motion.div className="mb-4" initial={ { x: -50, opacity: 0 } } animate={ { x: 0, opacity: 1 } } transition={ { delay: 0.5 } }>
-                            <Label htmlFor="email" className="block  text-lg">
+                            <Label htmlFor="email" className="block text-lg">
                                 Email Address <span className="text-red-400">*</span>
                             </Label>
-                            <Input id="email" placeholder="john.doe@gmail.com" type="email" name="email" value={ input.email } onChange={ changeEventHandler } />
+                            <Input
+                                id="email"
+                                placeholder="john.doe@gmail.com"
+                                type="email"
+                                name="email"
+                                value={ input.email }
+                                onChange={ changeEventHandler }
+                                className="text-white bg-gray-800 border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+                            />
                         </motion.div>
 
                         {/* Phone Number */ }
                         <motion.div className="mb-4" initial={ { x: -50, opacity: 0 } } animate={ { x: 0, opacity: 1 } } transition={ { delay: 0.6 } }>
-                            <Label htmlFor="phoneNumber" className="block  text-lg">
+                            <Label htmlFor="phoneNumber" className="block text-lg">
                                 Phone Number <span className="text-red-400">*</span>
                             </Label>
-                            <Input id="phoneNumber" placeholder="+1234567890" type="tel" name="phoneNumber" value={ input.phoneNumber } onChange={ changeEventHandler } />
+                            <Input
+                                id="phoneNumber"
+                                placeholder="+1234567890"
+                                type="tel"
+                                name="phoneNumber"
+                                value={ input.phoneNumber }
+                                onChange={ changeEventHandler }
+                                className="text-white bg-gray-800 border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+                            />
                         </motion.div>
 
                         {/* Password */ }
                         <motion.div className="mb-4" initial={ { x: -50, opacity: 0 } } animate={ { x: 0, opacity: 1 } } transition={ { delay: 0.7 } }>
-                            <Label htmlFor="password" className="block  text-lg">
+                            <Label htmlFor="password" className="block text-lg">
                                 Password <span className="text-red-400">*</span>
                             </Label>
-                            <Input id="password" placeholder="********" type="password" name="password" value={ input.password } onChange={ changeEventHandler } />
+                            <Input
+                                id="password"
+                                placeholder="********"
+                                type="password"
+                                name="password"
+                                value={ input.password }
+                                onChange={ changeEventHandler }
+                                className="text-white bg-gray-800 border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+                            />
                         </motion.div>
 
                         {/* Profile Picture */ }
                         <motion.div className="mb-6" initial={ { x: -50, opacity: 0 } } animate={ { x: 0, opacity: 1 } } transition={ { delay: 0.8 } }>
-                            <Label htmlFor="profilePicture" className="block  text-lg">
+                            <Label htmlFor="profilePicture" className="block text-lg">
                                 Profile Picture
                             </Label>
-                            <Input id="profilePicture" type="file" accept="image/*" onChange={ profilePictureHandler } />
+                            <Input
+                                id="profilePicture"
+                                type="file"
+                                accept="image/*"
+                                onChange={ profilePictureHandler }
+                                className="text-white bg-gray-800 border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+                            />
                         </motion.div>
 
                         {/* Role */ }
                         <motion.div className="mb-6" initial={ { x: -50, opacity: 0 } } animate={ { x: 0, opacity: 1 } } transition={ { delay: 0.9 } }>
-                            <Label className="block  mb-2 text-lg">
+                            <Label className="block mb-2 text-lg">
                                 I am a: <span className="text-red-400">*</span>
                             </Label>
                             <RadioGroup className="flex gap-4" value={ input.role } onValueChange={ (value) => setInput({ ...input, role: value }) }>
                                 <div className="flex items-center space-x-2">
-                                    <input type="radio" name="role" value="student" id="student" className="cursor-pointer" checked={ input.role === 'student' } onChange={ changeEventHandler } />
-                                    <Label htmlFor="student" className=" cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="student"
+                                        id="student"
+                                        className="cursor-pointer"
+                                        checked={ input.role === 'student' }
+                                        onChange={ changeEventHandler }
+                                    />
+                                    <Label htmlFor="student" className="cursor-pointer">
                                         JobSeeker
                                     </Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                    <input type="radio" name="role" value="recruiter" id="recruiter" className="cursor-pointer" checked={ input.role === 'recruiter' } onChange={ changeEventHandler } />
-                                    <Label htmlFor="recruiter" className=" cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="recruiter"
+                                        id="recruiter"
+                                        className="cursor-pointer"
+                                        checked={ input.role === 'recruiter' }
+                                        onChange={ changeEventHandler }
+                                    />
+                                    <Label htmlFor="recruiter" className="cursor-pointer">
                                         Recruiter
                                     </Label>
                                 </div>
