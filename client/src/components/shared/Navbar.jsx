@@ -39,7 +39,7 @@ const Navbar = () => {
         <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#00040A] to-[#001636] border-b border-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
-                    {/* Logo Section */ }
+
                     <div
                         className="text-2xl font-bold text-white cursor-pointer flex items-center"
                         onClick={ () => navigate('/') }
@@ -66,19 +66,22 @@ const Navbar = () => {
 
                     {/* Desktop Navigation */ }
                     <div className="hidden md:flex flex-1 justify-end items-center gap-4">
-                        {/* Right Section: Profile/Login/Signup */ }
+
                         { user ? (
                             <>
                                 <ul className="flex font-sans items-center space-x-6 text-gray-300">
-                                    <Link to="/">
-                                        <li className="cursor-pointer hover:text-white font-bold">Home</li>
-                                    </Link>
-                                    <Link to="/jobs">
-                                        <li className="cursor-pointer hover:text-white font-bold">Jobs</li>
-                                    </Link>
-                                    <Link to="/browse">
-                                        <li className="cursor-pointer hover:text-white font-bold">Browse</li>
-                                    </Link>
+                                    { user && user.role === 'recruiter' ? (
+                                        <>
+                                            <Link to='/admin/companies'><li className='cursor-pointer hover:text-white font-bold'>Companies</li></Link>
+                                            <Link to='/admin/jobs'><li className='cursor-pointer hover:text-white font-bold' >Jobs</li></Link>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Link to='/'><li className='cursor-pointer hover:text-white font-bold'>Home</li></Link>
+                                            <Link to='/jobs'><li className='cursor-pointer hover:text-white font-bold'>Jobs</li></Link>
+                                            <Link to='/browse'><li className='cursor-pointer hover:text-white font-bold'>Browse</li></Link>
+                                        </>
+                                    ) }
                                 </ul>
                                 <Popover>
                                     <PopoverTrigger asChild>
