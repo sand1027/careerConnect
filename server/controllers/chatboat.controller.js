@@ -10,7 +10,7 @@ export const chatboat = async(req, res) => {
     conversationHistory.push({ role: "user", content: userMessage });
 
     try {
-        const genAI = new GoogleGenerativeAI(process.env.GIMINIAI_API);
+        const genAI = new GoogleGenerativeAI('AIzaSyDMk6YKk2nzM90gfg6QCqwTQHnicgv9TDk');
         const model = genAI.getGenerativeModel({
             model: "gemini-pro",
         });

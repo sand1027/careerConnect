@@ -119,10 +119,11 @@ export const login = async(req, res) => {
         const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
         console.log("Returning success response");
+
         return res
             .status(200)
             .cookie("token", token, {
-                maxAge: 1 * 24 * 60 * 60 * 1000,
+                maxAge: 24 * 60 * 60 * 1000,
                 httpOnly: true,
                 sameSite: 'none',
                 secure: true,
@@ -132,6 +133,7 @@ export const login = async(req, res) => {
                 user,
                 success: true,
             });
+
     } catch (error) {
         console.error("Error in login route:", {
             message: error.message,
