@@ -22,7 +22,7 @@ const JobDescription = () => {
     const [isApplied, setIsApplied] = useState(false);
 
     useEffect(() => {
-        // Fetch single job details
+
         const fetchSingleJob = async () => {
             try {
                 const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
@@ -132,16 +132,21 @@ const JobDescription = () => {
                             </div>
                         </div>
 
-                        {/* Job Description */ }
+
                         <div className="mt-8">
                             <h2 className="text-xl font-semibold text-white mb-4">Job Description</h2>
                             <p className="text-gray-300">{ singleJob?.description || 'Description not available' }</p>
                         </div>
 
+                        <div className="mt-8">
+                            <h2 className="text-xl font-semibold text-white mb-4">Requirements</h2>
+                            <p className="text-gray-300">{ singleJob?.requirements || 'Description not available' }</p>
+                        </div>
+
                         {/* Experience */ }
                         <div className="mt-8">
                             <h2 className="text-xl font-semibold text-white mb-4">Experience Required</h2>
-                            <p className="text-gray-300">{ singleJob?.experience || 'Not specified' }</p>
+                            <p className="text-gray-300">{ singleJob?.experienceLevel || 'Not specified' }</p>
                         </div>
 
                         {/* Applications */ }
