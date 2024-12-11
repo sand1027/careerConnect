@@ -146,7 +146,7 @@ const JobDescription = () => {
                         {/* Experience */ }
                         <div className="mt-8">
                             <h2 className="text-xl font-semibold text-white mb-4">Experience Required</h2>
-                            <p className="text-gray-300">{ singleJob?.experienceLevel || 'Not specified' }</p>
+                            <p className="text-gray-300">{ `${singleJob?.experienceLevel} years` || 'Not specified' }</p>
                         </div>
 
                         {/* Applications */ }
