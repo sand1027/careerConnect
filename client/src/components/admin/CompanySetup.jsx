@@ -11,6 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
 import useGetCompanyById from '@/hooks/useGetCompanyById';
+import Footer from '../shared/Footer';
 
 const CompanySetup = () => {
     const params = useParams();
@@ -160,6 +161,7 @@ const CompanySetup = () => {
                     }
                 </form>
             </div>
+            <Footer />
         </motion.div>
     );
 };

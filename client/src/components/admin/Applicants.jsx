@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllApplicants } from '@/redux/applicationSlice';
 import { motion } from 'framer-motion';
+import Footer from '../shared/Footer';
 
 const Applicants = () => {
     const params = useParams();
@@ -42,6 +43,7 @@ const Applicants = () => {
                 </h1>
                 <ApplicantsTable />
             </motion.div>
+            <Footer />
         </div>
     );
 };
