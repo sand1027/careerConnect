@@ -5,11 +5,36 @@ import { Delete, Edit2, Eye, MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import axios from 'axios'
+import { JOB_API_END_POINT } from '@/utils/constant'
+import { toast } from 'sonner'
+import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
 
 const AdminJobsTable = () => {
     const { allAdminJobs, searchJobByText } = useSelector(store => store.job);
     const [filterJobs, setFilterJobs] = useState(allAdminJobs);
     const navigate = useNavigate();
+
+
+    const handleDeleteJob = async (jobId, fetchAllAdminJobs) => {
+        try {
+            if (!jobId) {
+                toast.error('Job ID is missing');
+                return;
+            }
+
+            axios.defaults.withCredentials = true;
+            const response = await axios.post(`${JOB_API_END_POINT}/delete`, { jobId });
+
+            toast.success(response.data.message);
+
+
+        } catch (error) {
+            console.error('Error deleting job:', error);
+            toast.error(error.response?.data?.message || 'Error deleting the job');
+        }
+    };
+
 
     useEffect(() => {
         const filteredJobs = allAdminJobs.filter((job) => {
@@ -72,13 +97,13 @@ const AdminJobsTable = () => {
                                         </div>
 
                                         <div
-                                            onClick={ () => navigate(`/admin/jobs/${job._id}/applicants`) }
+                                            onClick={ () => handleDeleteJob(job?._id) }
                                             className="flex items-center gap-2 cursor-pointer text-blue-600 hover:text-blue-500 p-2"
                                         >
                                             <Delete className="w-4" />
                                             <span>Delete</span>
                                         </div>
-                                    </PopoverContent>
+                                    </PopoverContent>s
                                 </Popover>
                             </TableCell>
                         </motion.tr>
