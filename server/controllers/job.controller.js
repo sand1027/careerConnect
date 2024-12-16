@@ -101,8 +101,6 @@ export const getAdminJobs = async(req, res) => {
     }
 }
 
-// need to implement delete a job post for admin
-
 export const deleteJob = async(req, res) => {
     const { jobId } = req.body;
 
@@ -117,10 +115,19 @@ export const deleteJob = async(req, res) => {
         if (!deletingJob) {
             return res.status(404).json({ message: 'Job not found' });
         }
+        const remainingJobs = await Job.find();
 
-        return res.status(200).json({ message: 'Job deleted successfully' });
+
+
+        return res.status(200).json({
+            message: 'Job deleted successfully',
+            remainingJobs,
+        });
     } catch (error) {
         console.error('Error deleting job:', error);
-        return res.status(500).json({ message: 'Error deleting the job', error: error.message });
+        return res.status(500).json({
+            message: 'Error deleting the job',
+            error: error.message
+        });
     }
 };

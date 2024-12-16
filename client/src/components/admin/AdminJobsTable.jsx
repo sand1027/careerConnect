@@ -2,33 +2,37 @@ import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Delete, Edit2, Eye, MoreHorizontal } from 'lucide-react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import axios from 'axios'
 import { JOB_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
-import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
+import { setAllJobs } from '@/redux/jobSlice'
 
 const AdminJobsTable = () => {
+    const dispatch = useDispatch()
     const { allAdminJobs, searchJobByText } = useSelector(store => store.job);
     const [filterJobs, setFilterJobs] = useState(allAdminJobs);
     const navigate = useNavigate();
 
 
-    const handleDeleteJob = async (jobId, fetchAllAdminJobs) => {
+    const handleDeleteJob = async (jobId) => {
         try {
             if (!jobId) {
                 toast.error('Job ID is missing');
                 return;
             }
-
             axios.defaults.withCredentials = true;
             const response = await axios.post(`${JOB_API_END_POINT}/delete`, { jobId });
 
+            // Update Redux state
+            dispatch(setAllJobs(response.data.remainingJobs));
+
+            // Trigger re-filtering
+            setFilterJobs(response.data.remainingJobs);
+
             toast.success(response.data.message);
-
-
         } catch (error) {
             console.error('Error deleting job:', error);
             toast.error(error.response?.data?.message || 'Error deleting the job');
@@ -37,13 +41,13 @@ const AdminJobsTable = () => {
 
 
     useEffect(() => {
-        const filteredJobs = allAdminJobs.filter((job) => {
+        setFilterJobs(allAdminJobs.filter((job) => {
             if (!searchJobByText) return true;
             return job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) ||
                 job?.company?.name?.toLowerCase().includes(searchJobByText.toLowerCase());
-        });
-        setFilterJobs(filteredJobs);
+        }));
     }, [allAdminJobs, searchJobByText]);
+
 
     return (
         <motion.div

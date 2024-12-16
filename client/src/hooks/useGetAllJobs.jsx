@@ -12,13 +12,12 @@ const useGetAllJobs = () => {
         const fetchAllJobs = async () => {
             try {
                 console.log(searchedQuery)
-                // Construct the API endpoint with the search query as a query parameter
+
                 const queryParam = searchedQuery ? `?keyword=${searchedQuery}` : '';
                 const response = await axios.get(`${JOB_API_END_POINT}/get${queryParam}`, {
                     withCredentials: true
                 });
                 console.log(response)
-                // Log and dispatch the data if successful
                 if (response?.data?.success) {
                     dispatch(setAllJobs(response.data.jobs));
                 }
