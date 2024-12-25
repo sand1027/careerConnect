@@ -105,7 +105,6 @@ export const login = async(req, res) => {
             });
         }
 
-        console.log("Checking user role");
         if (role !== user.role) {
             console.log("Role mismatch for user:", email);
             return res.status(400).json({
@@ -114,7 +113,7 @@ export const login = async(req, res) => {
             });
         }
 
-        console.log("Generating JWT");
+
         const tokenData = { userId: user._id };
         const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
@@ -180,7 +179,7 @@ export const updateProfile = async(req, res) => {
         }
         const userId = req.id;
         let user = await User.findById(userId);
-        console.log(userId)
+
         if (!user) {
             return res.status(400).json({
                 message: "User not found.",

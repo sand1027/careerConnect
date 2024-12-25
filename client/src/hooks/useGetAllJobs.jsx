@@ -11,18 +11,18 @@ const useGetAllJobs = () => {
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
-                console.log(searchedQuery)
+
 
                 const queryParam = searchedQuery ? `?keyword=${searchedQuery}` : '';
                 const response = await axios.get(`${JOB_API_END_POINT}/get${queryParam}`, {
                     withCredentials: true
                 });
-                console.log(response)
+
                 if (response?.data?.success) {
                     dispatch(setAllJobs(response.data.jobs));
                 }
             } catch (error) {
-                console.log('Error fetching jobs:', error);
+
             }
         };
 

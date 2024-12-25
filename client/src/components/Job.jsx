@@ -25,7 +25,7 @@ const Job = ({ job }) => {
     };
 
     const handleSaveForLater = async (jobId) => {
-        console.log('Save button clicked');  // Debugging message
+
         try {
             const response = await axios.post(`${USER_API_END_POINT}/savedjob`, { jobId }, {
                 withCredentials: true
@@ -35,7 +35,7 @@ const Job = ({ job }) => {
                 toast.success(response.data.message);
             }
         } catch (error) {
-            console.log(error);
+
             toast.error(error.response?.data?.message || 'Error saving job');
         }
     };
