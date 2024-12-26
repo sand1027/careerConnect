@@ -68,7 +68,7 @@ const Login = () => {
                 transition={ { duration: 0.5 } }
             >
                 <motion.div
-                    className="w-full max-w-md p-8 bg-gray-800 border-gray-700 shadow-lg rounded-lg border border-gray-600"
+                    className="w-full max-w-md p-8 bg-gray-900 border-gray-700 shadow-lg rounded-lg border border-gray-600"
                     initial={ { y: 50 } }
                     animate={ { y: 0 } }
                     transition={ { type: 'spring', stiffness: 100 } }
@@ -96,7 +96,7 @@ const Login = () => {
                                 id="email"
                                 placeholder="john.doe@gmail.com"
                                 type="email"
-                                className="mt-1 p-3 border border-gray-500 rounded-md outline-none focus:border-blue-500 transition-all w-full"
+                                className="mt-1 p-3 border bg-transparent border-gray-500 rounded-md outline-none focus:border-blue-500 transition-all w-full"
                                 value={ input.email }
                                 name="email"
                                 onChange={ changeEventHandler }
@@ -115,7 +115,7 @@ const Login = () => {
                                 id="password"
                                 placeholder="********"
                                 type="password"
-                                className="mt-1 p-3 border border-gray-500 rounded-md outline-none focus:border-blue-500 transition-all w-full"
+                                className="mt-1 p-3 border bg-transparent border-gray-500 rounded-md outline-none focus:border-blue-500 transition-all w-full"
                                 value={ input.password }
                                 name="password"
                                 onChange={ changeEventHandler }
