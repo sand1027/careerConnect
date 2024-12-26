@@ -2,9 +2,18 @@
 
 A comprehensive job seeking and posting platform that connects job seekers with recruiters.
 
-## Features
+🔗 **Live URLs:**
+- Frontend: [https://hire-hub-chandan.vercel.app](https://hire-hub-chandan.vercel.app)
+- Backend: [https://hire-hub-psi.vercel.app](https://hire-hub-psi.vercel.app)
 
-### For Job Seekers
+> **Important Note:** We're using free-tier servers which may need a warm-up:
+> 1. First open the backend URL and wait for it to load
+> 2. Then access the frontend URL for the best experience
+> 3. If experiencing delays, please refresh both URLs
+
+## ✨ Features
+
+### 👤 For Job Seekers
 - Account creation and management
 - Job search with advanced filtering
 - Save interesting job postings
@@ -12,32 +21,30 @@ A comprehensive job seeking and posting platform that connects job seekers with 
 - Profile customization
 - Resume upload and management
 
-### For Recruiters
+### 💼 For Recruiters
 - Company registration and profile management
 - Job posting creation and management
 - Access to applicant details (name, phone, resume)
 - Applicant tracking and management
 
-## Screenshots
-
-## Application Screenshots
+## 📸 Application Screenshots
 
 ### 1. Job Description Page
 ![Landing Page](./images/1.png)
 
-### 2. Sing In Interface
+### 2. Sign In Interface
 ![Job Search Interface](./images/2.png)
 
-### 3. Footer 
+### 3. Footer
 ![Profile Management](./images/3.png)
 
-### 4. Chat Bot 
+### 4. Chat Bot
 ![Company Dashboard](./images/4.png)
 
-### 5. Landing Page 
+### 5. Landing Page
 ![Job Posting Form](./images/5.png)
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - Frontend: React.js
 - Backend: Node.js
@@ -45,7 +52,7 @@ A comprehensive job seeking and posting platform that connects job seekers with 
 - Cloud Storage: Cloudinary
 - AI Integration: Google Gemini
 
-## Environment Variables
+## ⚙️ Environment Variables
 
 Create a `.env` file in the root directory:
 
@@ -57,18 +64,18 @@ API_KEY=your_cloudinary_api_key
 API_SECRET=your_cloudinary_api_secret
 CLOUD_NAME=your_cloudinary_cloud_name
 GIMINIAI_API=your_gemini_api_key
-FRONTEND_URL=https://your-frontend-url.com
+FRONTEND_URL=https://hire-hub-chandan.vercel.app
 ```
 
-## Frontend Configuration
+## 🔧 Frontend Configuration
 
 Update the backend URL in `client/src/utils/constant.js`:
 
 ```javascript
-const BASE_URL = "https://your-backend-url.com/api/v1";
+const BASE_URL = "https://hire-hub-psi.vercel.app/api/v1";
 ```
 
-## Docker Deployment
+## 🐳 Docker Deployment
 
 ### Prerequisites
 - Docker installed on your system
@@ -105,7 +112,7 @@ docker run -d --name backend -p 8000:8000 --network=bridge chandankumar55/hire_h
 docker run -d --name frontend -p 5173:5173 --network=bridge chandankumar55/hire_hub:frontend-v1
 ```
 
-## Local Development
+## 💻 Local Development
 
 1. Clone the repository
 2. Install dependencies:
@@ -128,10 +135,11 @@ npm run dev
 npm run dev
 ```
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create your feature branch
 3. Commit your changes
 4. Push to the branch
 5. Create a new Pull Request
+
