@@ -20,12 +20,22 @@ A comprehensive job seeking and posting platform that connects job seekers with 
 
 ## Screenshots
 
-Screenshots of the application can be found in the `./images` directory:
-1. Landing page (1.png)
-2. Job search interface (2.png)
-3. Profile management (3.png)
-4. Company dashboard (4.png)
-5. Job posting form (5.png)
+## Application Screenshots
+
+### 1. Landing Page
+![Landing Page](./images/1.png)
+
+### 2. Job Search Interface
+![Job Search Interface](./images/2.png)
+
+### 3. Profile Management
+![Profile Management](./images/3.png)
+
+### 4. Company Dashboard
+![Company Dashboard](./images/4.png)
+
+### 5. Job Posting Form
+![Job Posting Form](./images/5.png)
 
 ## Tech Stack
 
