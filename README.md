@@ -22,19 +22,19 @@ A comprehensive job seeking and posting platform that connects job seekers with 
 
 ## Application Screenshots
 
-### 1. Landing Page
+### 1. Job Description Page
 ![Landing Page](./images/1.png)
 
-### 2. Job Search Interface
+### 2. Sing In Interface
 ![Job Search Interface](./images/2.png)
 
-### 3. Profile Management
+### 3. Footer 
 ![Profile Management](./images/3.png)
 
-### 4. Company Dashboard
+### 4. Chat Bot 
 ![Company Dashboard](./images/4.png)
 
-### 5. Job Posting Form
+### 5. Landing Page 
 ![Job Posting Form](./images/5.png)
 
 ## Tech Stack
