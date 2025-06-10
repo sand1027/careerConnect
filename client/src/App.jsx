@@ -70,6 +70,14 @@ const appRouter = createBrowserRouter([
     ),
   },
   {
+    path: "/recruiter/companies",
+    element: (
+      <ProtectedRoute>
+        <Companies />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/admin/companies/create",
     element: (
       <ProtectedRoute>
